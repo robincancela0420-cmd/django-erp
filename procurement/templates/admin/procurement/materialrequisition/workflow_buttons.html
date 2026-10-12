@@ -1,0 +1,25 @@
+{% if original.status == "draft" and request.user.role == "qs_engineer" %}
+  <div class="submit-row">
+    <form method="post" action="{% url 'admin:procurement_materialrequisition_submit' original.pk %}" style="display:inline">
+      {% csrf_token %}
+      <button type="submit" class="button" onclick="return confirm('Submit this requisition for approval?');">
+        Submit for Approval
+      </button>
+    </form>
+  </div>
+{% elif original.status == "for_approval" and request.user.role == "project_manager" %}
+  <div class="submit-row">
+    <form method="post" action="{% url 'admin:procurement_materialrequisition_approve' original.pk %}" style="display:inline">
+      {% csrf_token %}
+      <button type="submit" class="button" onclick="return confirm('Approve this requisition?');">
+        Approve
+      </button>
+    </form>
+    <form method="post" action="{% url 'admin:procurement_materialrequisition_reject' original.pk %}" style="display:inline">
+      {% csrf_token %}
+      <button type="submit" class="button" onclick="return confirm('Reject this requisition?');">
+        Reject
+      </button>
+    </form>
+  </div>
+{% endif %}

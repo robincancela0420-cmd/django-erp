@@ -1,6 +1,26 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User
+from .models import User, UserPagePermission
+
+@admin.register(UserPagePermission)
+class UserPagePermissionAdmin(admin.ModelAdmin):
+    list_display = (
+        "user",
+        "page_key",
+        "can_view",
+        "can_add",
+        "can_edit",
+        "can_delete",
+    )
+
+    list_filter = (
+        "page_key",
+        "can_view",
+        "can_add",
+        "can_edit",
+        "can_delete",
+    )
+    search_fields = "user__username", "page_key"
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
